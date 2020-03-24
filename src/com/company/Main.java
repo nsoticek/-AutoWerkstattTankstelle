@@ -19,6 +19,9 @@ public class Main {
     }
 
     private static void mainMenue(Car car, GasStation omv, Person newPerson, Garage newGarage) {
+        /*MainMenu in console; The user can make a selection here;
+        Possible selections: drive, refuel, service,changeTire, view userFacts*/
+
         Scanner scanner = new Scanner(System.in);
         double invoiceAmount;
         String messageDrive = "Wie viel km willst du fahren? ";
