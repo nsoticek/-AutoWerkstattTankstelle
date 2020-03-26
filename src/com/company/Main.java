@@ -1,5 +1,8 @@
 package com.company;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -40,15 +43,15 @@ public class Main {
             case 2: // Refuel
                 int quantitiy = getUserInputNumber(messageRefuel, scanner);
                 invoiceAmount = omv.refuel(car, quantitiy);
-                createInvoice(invoiceAmount, car.fuelType, quantitiy);
+                createInvoice(invoiceAmount, car.fuelType, quantitiy, newPerson, car);
                 break;
             case 3: // Service
                 invoiceAmount = newGarage.service(car);
-                createInvoice(invoiceAmount, "Service", 1);
+                createInvoice(invoiceAmount, "Service", 1, newPerson, car);
                 break;
             case 4: // change Tires
                 invoiceAmount = newGarage.changeTires(car);
-                createInvoice(invoiceAmount, "Reifenwechsel", 4);
+                createInvoice(invoiceAmount, "Reifenwechsel", 4, newPerson, car);
                 break;
             case 5: // Car person
                 System.out.println(car);
@@ -81,11 +84,29 @@ public class Main {
         return newPerson;
     }
 
-    private static void createInvoice(double invoiceAmount, String purpose, int quantitiy) {
+    private static void createInvoice(double invoiceAmount, String purpose, int quantitiy, Person newPerson, Car car) {
         System.out.println("---------Rechnung----------");
         System.out.printf("%s\t\t%dl\t\t%.2f€\n", purpose, quantitiy, invoiceAmount);
         System.out.printf("----------------------------");
         System.out.printf("\nGesamt\t\t\t\t%.2f€\n", invoiceAmount);
         System.out.println("----------------------------");
+
+        createInvoiceInFile(invoiceAmount, purpose, quantitiy, newPerson, car);
+    }
+
+    private static void createInvoiceInFile(double invoiceAmount, String purpose, int quantitiy, Person newPerson, Car car) {
+
+        String myFile = "..\\Übung 4 -AutoRechnung\\src\\com\\company\\Invoice.txt";
+
+        try {
+            FileWriter fileWriter = new FileWriter(myFile, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            String str = "\n" + newPerson.getName() + ";" + car.getBrand() + ";" + purpose + ";" + invoiceAmount;
+            bufferedWriter.write(str);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

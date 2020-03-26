@@ -64,6 +64,10 @@ public class Car extends Vehicle {
         this.tires = tires;
     }
 
+    public String getBrand() {
+        return String.valueOf(brand);
+    }
+
     @Override
     public String toString() {
         return brand +
